@@ -110,7 +110,7 @@ Tcoupl                   = v-rescale
 tc-grps                  = System
 ; Time constant (ps) and reference temperature (K)
 tau_t                    = 0.1
-ref_t                    = 100
+ref_t                    = STARTTEMP
 ; Pressure coupling     
 Pcoupl                   = no
 Pcoupltype               = isotropic
