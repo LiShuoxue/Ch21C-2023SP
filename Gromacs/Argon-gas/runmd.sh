@@ -8,10 +8,10 @@ do
 done
 
 # change temperature to the arg $1
-cat md.mdp | sed "s/MYTEMP/$1/g" > md.mdp
+cat md.mdp | sed "s/MYTEMP/$1/g" > mdwork.mdp
 
 # Run Molecular dynamics
-gmx grompp -f md.mdp -c argon_start.pdb -p argon.top
+gmx grompp -f mdwork.mdp -c argon_start.pdb -p argon.top
 gmx mdrun -s topol.tpr -v -c argon_1ns.gro -nice 0
 
 # Post-processing
