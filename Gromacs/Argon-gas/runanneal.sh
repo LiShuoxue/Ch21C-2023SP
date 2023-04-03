@@ -5,8 +5,8 @@ filepath="https://raw.githubusercontent.com/LiShuoxue/Ch21C-2023SP/main/Gromacs/
 
 curl -O "${filepath}argon.top"
 curl -O "${filepath}argon_start.pdb"
-curl -O "${filepath}md.mdp"
-cat md.mdp | sed "s/MYTEMP/$1/g" > mdwork.mdp
+curl -O "${filepath}md2.mdp"
+cat md2.mdp | sed "s/MYTEMP/$1/g" > mdwork.mdp
 curl -O "${filepath}anneal.mdp"
 cat anneal.mdp | sed "s/STARTTEMP/$1/g" | sed "s/ENDTEMP/$2/g" > anneal-work.mdp
 
