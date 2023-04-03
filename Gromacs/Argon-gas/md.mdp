@@ -120,6 +120,9 @@ tau_p                    = 0.5
 compressibility          = 4.5e-5
 ref_p                    = 1.0
 
+ensemble-temperature-setting = constant
+ensemble-temperature = 400
+
 ; SIMULATED ANNEALING  
 ; Type of annealing for each temperature group (no/single/periodic)
 annealing                = 
