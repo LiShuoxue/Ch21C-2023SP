@@ -111,7 +111,7 @@ Tcoupl                   = berendsen
 tc-grps                  = System
 ; Time constant (ps) and reference temperature (K)
 tau_t                    = 0.5
-ref_t                    = 400
+ref_t                    = MYTEMP
 ; Pressure coupling     
 Pcoupl                   = no
 Pcoupltype               = isotropic
@@ -132,7 +132,7 @@ annealing_temp           =
 
 ; GENERATE VELOCITIES FOR STARTUP RUN
 gen_vel                  = yes
-gen_temp                 = 400
+gen_temp                 = MYTEMP
 gen_seed                 = 173529
 
 ; OPTIONS FOR BONDS    
