@@ -8,7 +8,8 @@ do
 done
 
 # change temperature to the arg $1
-curl -O ${filepath}md.mdp | sed "s/MYTEMP/$1/g" > mdwork.mdp
+curl -O ${filepath}md.mdp
+cat md.mdp | sed "s/MYTEMP/$1/g" > mdwork.mdp
 
 # Run Molecular dynamics
 gmx grompp -f mdwork.mdp -c argon_start.pdb -p argon.top
