@@ -132,7 +132,7 @@ annealing_temp           =
 
 ; GENERATE VELOCITIES FOR STARTUP RUN
 gen_vel                  = yes
-gen_temp                 = 100.0
+gen_temp                 = 300
 gen_seed                 = 173529
 
 ; OPTIONS FOR BONDS    
