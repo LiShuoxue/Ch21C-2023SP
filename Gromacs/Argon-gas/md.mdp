@@ -14,7 +14,7 @@ integrator               = md
 ; Start time and timestep in ps
 tinit                    = 0
 dt                       = 0.002
-nsteps                   = 2500000
+nsteps                   = 500000
 ; For exact run continuation or redoing part of a run
 init_step                = 0
 ; mode for center of mass motion removal
@@ -106,11 +106,11 @@ implicit_solvent         = No
 
 ; OPTIONS FOR WEAK COUPLING ALGORITHMS
 ; Temperature coupling  
-Tcoupl                   = berendsen
+Tcoupl                   = nose-hoover
 ; Groups to couple separately
 tc-grps                  = System
 ; Time constant (ps) and reference temperature (K)
-tau_t                    = 0.05
+tau_t                    = 0.1
 ref_t                    = 400
 ; Pressure coupling     
 Pcoupl                   = no
