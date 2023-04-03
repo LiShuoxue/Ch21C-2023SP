@@ -110,7 +110,7 @@ Tcoupl                   = nose-hoover
 ; Groups to couple separately
 tc-grps                  = System
 ; Time constant (ps) and reference temperature (K)
-tau_t                    = 0.1
+tau_t                    = 2
 ref_t                    = 400
 ; Pressure coupling     
 Pcoupl                   = no
