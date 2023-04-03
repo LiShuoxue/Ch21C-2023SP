@@ -109,7 +109,7 @@ Tcoupl                   = berendsen
 ; Groups to couple separately
 tc-grps                  = System
 ; Time constant (ps) and reference temperature (K)
-tau_t                    = 0.1
+tau_t                    = 0.5
 ref_t                    = 100
 ; Pressure coupling     
 Pcoupl                   = no
