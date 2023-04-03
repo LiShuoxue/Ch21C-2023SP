@@ -43,4 +43,3 @@ def run_mds(tmps):
     for strs in logger: print(strs)
     df.to_csv("results.csv")
 
-

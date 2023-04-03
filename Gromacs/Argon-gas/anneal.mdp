@@ -127,11 +127,11 @@ annealing_npoints        = 2
 ; List of times at the annealing points for each group
 annealing_time           = 0 5000
 ; Temp. at each annealing point, for each group.
-annealing_temp           = 100 400
+annealing_temp           = STARTTEMP ENDTEMP
 
 ; GENERATE VELOCITIES FOR STARTUP RUN
 gen_vel                  = yes
-gen_temp                 = 100.0
+gen_temp                 = STARTTEMP
 gen_seed                 = 173529
 
 ; OPTIONS FOR BONDS    
