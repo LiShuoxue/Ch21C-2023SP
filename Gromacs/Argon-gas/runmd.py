@@ -62,13 +62,13 @@ echo 10 | gmx energy -o Pressure.xvg
         df[tag] = np.zeros(len(tmps))
     for tmp in tmps:
         for V in Vs:
-            folder = "V-{:.2f}-T-{:.2f}K".format(tmp)
+            folder = "V-{:.2f}-T-{:.2f}K".format(V, tmp)
 
             try: os.makedirs(folder)
             except FileExistsError: pass
             os.chdir(folder)
             
-            generate_Argon_pdbfile(V, 100, "V-{}".format(V))
+            generate_Argon_pdbfile(V, 100, "V-{:.2f}".format(V))
 
             df['Volume'][cnt] = V
             df['Temperature'][cnt] = tmp
