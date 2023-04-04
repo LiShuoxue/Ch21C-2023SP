@@ -23,7 +23,7 @@ def generate_Argon_pdbfile(V, N, filename=None):
         f.write("CRYST1 {:.3f} {:.3f} {:.3f}  90.00  90.00  90.00 P 1  1\n".format(a,a,a))
         f.write("MODEL        1\n")
         for i in range(N):
-            f.write("ATOM {} Ar Ar {} {:.3f} {:.3f} {:.3f} 1.00 0.00\n".format(i+1, i+1, np.random.random()*a, np.random.random()*a, np.random.random()*a))
+            f.write("ATOM{:>7}  Ar   Ar{:>6}{:>12.3f}{:>8.3f}{:>8.3f}  1.00  0.00\n".format(i+1, i+1, np.random.random()*a, np.random.random()*a, np.random.random()*a))
         f.write("TER\n")
         f.write("ENDMDL\n")
         f.close()
