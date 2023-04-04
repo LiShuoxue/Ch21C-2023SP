@@ -73,7 +73,7 @@ echo 10 | gmx energy -o Pressure.xvg
             df['Volume'][cnt] = V
             df['Temperature'][cnt] = tmp
 
-            subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "V-{}".format(V)])
+            subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "V-{:.2f}".format(V)])
             for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
                 step, quant = np.loadtxt("{}.xvg".format(tag), comments=['#', '@']).T
                 quant_mean = np.mean(quant[len(step)//4:])
