@@ -20,10 +20,10 @@ def generate_Argon_pdbfile(V, N, filename=None):
     with open(filename+".pdb", "w") as f:
         f.write("HEADER    Argon\n")
         f.write("REMARK    Box with V = {}, N = {}\n".format(V, N))
-        f.write("CRYST1\t{:.6f}\t{:.6f}\t{:.6f}  90.00  90.00  90.00 P 1  1\n".format(a,a,a))
+        f.write("CRYST1 {:.6f} {:.6f} {:.6f}  90.00  90.00  90.00 P 1  1\n".format(a,a,a))
         f.write("MODEL        1\n")
         for i in range(N):
-            f.write("ATOM\t{}\tAr\tAr\t{}\t{:.3f}\t{:.3f}\t{:.3f}\t1.00\t0.00\n".format(i+1, i+1, np.random.random()*a, np.random.random()*a, np.random.random()*a))
+            f.write("ATOM {} Ar Ar {} {:.3f} {:.3f} {:.3f} 1.00 0.00\n".format(i+1, i+1, np.random.random()*a, np.random.random()*a, np.random.random()*a))
         f.write("TER\n")
         f.write("ENDMDL\n")
         f.close()
