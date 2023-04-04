@@ -59,7 +59,7 @@ echo 10 | gmx energy -o Pressure.xvg
 
     df = pd.DataFrame()
     for tag in ['Potential', 'Kinetic', 'Total_E', 'Temperature', 'Pressure', "Volume"]:
-        df[tag] = np.zeros(len(tmps))
+        df[tag] = np.zeros(len(tmps) * len(Vs))
     for tmp in tmps:
         for V in Vs:
             folder = "V-{:.2f}-T-{:.2f}K".format(V, tmp)
