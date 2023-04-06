@@ -119,7 +119,7 @@ if __name__ == "__main__":
                 V_START, V_END, V_STEP = eval(arg[0]), eval(arg[1]), eval(arg[2])
         if name == "number":
             if arg is not None:
-                N_START, N_END, N_STEP = eval(arg[0]), eval(arg[1]), eval(arg[2])
+                N_START, N_END, N_STEP = int(eval(arg[0])), int(eval(arg[1])), int(eval(arg[2]))
 
     tmps = np.linspace(T_START, T_END, T_STEP)
     Vs = np.linspace(V_START, V_END, V_STEP)
