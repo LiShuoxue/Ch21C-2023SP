@@ -76,14 +76,15 @@ echo 10 | gmx energy -o Pressure.xvg
             subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "V-{:.2f}".format(V)])
             for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
                 step, quant = np.loadtxt("{}.xvg".format(tag), comments=['#', '@']).T
-                quant_mean = np.mean(quant[len(step)//4:])
-                quant_std  = np.std(quant[len(step)//4:])
+                quant_mean = np.mean(quant[len(step)//3:])
+                quant_std  = np.std(quant[len(step)//3:])
 
                 print("T = {}, V = {} : {} = ({} ± {}) {}".format(
                     tmp, V, tag, quant_mean, quant_std, units[tag]
                 ))
 
                 df[tag][cnt] = quant_mean
+                df[tag+'-std'][cnt] = quant_std
 
             cnt += 1
 
