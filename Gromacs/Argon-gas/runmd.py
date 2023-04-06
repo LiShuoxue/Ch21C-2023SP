@@ -112,7 +112,7 @@ if __name__ == "__main__":
     args = parser.parse_args()._get_kwargs()
 
     T_START, T_END, T_STEP = 100, 400, 4
-    V_START, V_END, V_STEP = 500000, 500000, 1
+    V_START, V_END, V_STEP = 0.2, 1, 5
     N_START, N_END, N_STEP = 100, 100, 1
 
     for name, arg in args:
