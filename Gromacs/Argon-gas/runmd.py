@@ -68,7 +68,7 @@ echo 10 | gmx energy -o Pressure.xvg
 
                 N = int(N)
 
-                folder = "V-{:.2f}-T-{:.2f}K".format(V, tmp)
+                folder = "V-{:.2f}-T-{:.2f}K-N-{:.0f}".format(V, tmp, N)
 
                 try: os.makedirs(folder)
                 except FileExistsError: pass
