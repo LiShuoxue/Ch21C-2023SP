@@ -8,7 +8,7 @@ units = {
     "Total_E": "kJ/mol",
     "Temperature": "K",
     "Pressure": "Bar",
-    "Volume": "Angstrom^3"
+    "Volume": "L/mol"
 }
 
 def generate_Argon_pdbfile(V, N, filename=None):
@@ -20,7 +20,7 @@ def generate_Argon_pdbfile(V, N, filename=None):
     with open(filename+".pdb", "w") as f:
         f.write("HEADER    Argon\n")
         f.write("REMARK    THIS IS A SIMULATION BOX\n")
-        f.write("CRYST1 {:.3f} {:.3f} {:.3f}  90.00  90.00  90.00 P 1  1\n".format(a,a,a))
+        f.write("CRYST1 {:.6f} {:.6f} {:.6f}  90.00  90.00  90.00 P 1  1\n".format(a,a,a))
         f.write("MODEL        1\n")
         for i in range(N):
             f.write("ATOM{:>7}  Ar   Ar{:>6}{:>12.3f}{:>8.3f}{:>8.3f}  1.00  0.00\n".format(i+1, i+1, np.random.random()*a, np.random.random()*a, np.random.random()*a))
@@ -65,24 +65,25 @@ echo 10 | gmx energy -o Pressure.xvg
     for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
         df[tag+"-std"] = np.zeros(len(tmps) * len(Vs) * len(Ns))
     for tmp in tmps:
-        for V in Vs:
+        for Vm in Vs:
             for N in Ns:
 
+                V = (Vm * 10E-3) * N / 6.022E23 * 10E30 # Vm (L/mol) -> V (Ang^3)
                 N = int(N)
 
-                folder = "V-{:.2f}-T-{:.2f}K-N-{:.0f}".format(V, tmp, N)
+                folder = "V-{:.2f}-T-{:.2f}K-N-{:.0f}".format(Vm, tmp, N)
 
                 try: os.makedirs(folder)
                 except FileExistsError: pass
                 os.chdir(folder)
                 
-                generate_Argon_pdbfile(V, N, "V-{:.2f}-N-{:.0f}".format(V, N))
+                generate_Argon_pdbfile(V, N, "V-{:.2f}-N-{:.0f}".format(Vm, N))
 
-                df['Volume'][cnt] = V
+                df['Volume'][cnt] = Vm
                 df['Temperature'][cnt] = tmp
                 df['Number'][cnt] = N
 
-                subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "{:.2f}".format(V), "{:.0f}".format(N)])
+                subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "{:.2f}".format(Vm), "{:.0f}".format(N)])
                 for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
                     step, quant = np.loadtxt("{}.xvg".format(tag), comments=['#', '@']).T
                     quant_mean = np.mean(quant[len(step)//3:])
@@ -105,7 +106,7 @@ echo 10 | gmx energy -o Pressure.xvg
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-T", "--temperature", help="Select Temperature Range (Start(K), End(K), Step)", nargs='*')
-    parser.add_argument("-V", "--volume", help="Select Volume Range (Start(Ang^3), End(Ang^3), Step)", nargs='*')
+    parser.add_argument("-V", "--volume", help="Select Volume per mol Range (Start(L/mol), End(L/mol), Step)", nargs='*')
     parser.add_argument("-N", "--number", help="Select particle numbers (Start, End, Step)",  nargs='*')
 
     args = parser.parse_args()._get_kwargs()
