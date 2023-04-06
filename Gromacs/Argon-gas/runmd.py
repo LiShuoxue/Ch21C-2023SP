@@ -34,12 +34,12 @@ def run_mds(tmps, Vs, Ns):
         f.write('''# Shuoxue Li <sli7@caltech.edu>
 # Download sample file from github
 filepath="https://raw.githubusercontent.com/LiShuoxue/Ch21C-2023SP/main/Gromacs/Argon-gas/"
-for filename in "argon.top" 
+for filename in "argon-template.top" 
 do
-  curl -O ${filepath}${filename} > argon_template.top
+  curl -O ${filepath}${filename}
 done
 
-cat argon_template.top | sed "s/NUMBER/$3/g" > argon.top
+cat argon-template.top | sed "s/NUMBER/$3/g" > argon.top
 
 # change temperature to the arg $1
 curl -O ${filepath}md.mdp
