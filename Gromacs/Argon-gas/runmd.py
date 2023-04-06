@@ -89,8 +89,8 @@ echo 10 | gmx energy -o Pressure.xvg
                     quant_mean = np.mean(quant[len(step)//3:])
                     quant_std  = np.std(quant[len(step)//3:])
 
-                    print("T = {}, V = {} : {} = ({} ± {}) {}".format(
-                        tmp, V, tag, quant_mean, quant_std, units[tag]
+                    print("T = {} K, V = {} L/mol, N = {}: {} = ({} ± {}) {}".format(
+                        tmp, Vm, N, tag, quant_mean, quant_std, units[tag]
                     ))
 
                     df[tag][cnt] = quant_mean
