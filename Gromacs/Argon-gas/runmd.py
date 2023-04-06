@@ -28,7 +28,7 @@ def generate_Argon_pdbfile(V, N, filename=None):
         f.write("ENDMDL\n")
         f.close()
 
-def run_mds(tmps, Vs):
+def run_mds(tmps, Vs, Ns):
 
     with open("runmd.sh", 'w') as f:
         f.write('''# Shuoxue Li <sli7@caltech.edu>
@@ -59,68 +59,69 @@ echo 10 | gmx energy -o Pressure.xvg
 
     df = pd.DataFrame()
     for tag in ['Potential', 'Kinetic', 'Total_E', 'Temperature', 'Pressure', "Volume"]:
-        df[tag] = np.zeros(len(tmps) * len(Vs))
+        df[tag] = np.zeros(len(tmps) * len(Vs) * len(Ns))
     for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
-        df[tag+"-std"] = np.zeros(len(tmps) * len(Vs))
+        df[tag+"-std"] = np.zeros(len(tmps) * len(Vs) * len(Ns))
     for tmp in tmps:
         for V in Vs:
-            folder = "V-{:.2f}-T-{:.2f}K".format(V, tmp)
+            for N in Ns:
 
-            try: os.makedirs(folder)
-            except FileExistsError: pass
-            os.chdir(folder)
-            
-            generate_Argon_pdbfile(V, 100, "V-{:.2f}".format(V))
+                folder = "V-{:.2f}-T-{:.2f}K".format(V, tmp)
 
-            df['Volume'][cnt] = V
-            df['Temperature'][cnt] = tmp
+                try: os.makedirs(folder)
+                except FileExistsError: pass
+                os.chdir(folder)
+                
+                generate_Argon_pdbfile(V, N, "V-{:.2f}-N-{:.0f}".format(V, N))
 
-            subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "V-{:.2f}".format(V)])
-            for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
-                step, quant = np.loadtxt("{}.xvg".format(tag), comments=['#', '@']).T
-                quant_mean = np.mean(quant[len(step)//3:])
-                quant_std  = np.std(quant[len(step)//3:])
+                df['Volume'][cnt] = V
+                df['Temperature'][cnt] = tmp
 
-                print("T = {}, V = {} : {} = ({} ± {}) {}".format(
-                    tmp, V, tag, quant_mean, quant_std, units[tag]
-                ))
+                subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "V-{:.2f}-N-{:.0f}".format(V, N)])
+                for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
+                    step, quant = np.loadtxt("{}.xvg".format(tag), comments=['#', '@']).T
+                    quant_mean = np.mean(quant[len(step)//3:])
+                    quant_std  = np.std(quant[len(step)//3:])
 
-                df[tag][cnt] = quant_mean
-                df[tag+'-std'][cnt] = quant_std
+                    print("T = {}, V = {} : {} = ({} ± {}) {}".format(
+                        tmp, V, tag, quant_mean, quant_std, units[tag]
+                    ))
 
-            cnt += 1
+                    df[tag][cnt] = quant_mean
+                    df[tag+'-std'][cnt] = quant_std
 
-            os.chdir("..")
-            print("-" * 50)
+                cnt += 1
+
+                os.chdir("..")
+                print("-" * 50)
 
     df.to_csv("results.csv")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-T", "--temperature", help="Select Temperature Range (Start(K), End(K), number)", nargs='*')
-    parser.add_argument("-V", "--volume", help="Select Volume Range (Start(Ang^3), End(Ang^3), number)", nargs='*')
+    parser.add_argument("-T", "--temperature", help="Select Temperature Range (Start(K), End(K), Step)", nargs='*')
+    parser.add_argument("-V", "--volume", help="Select Volume Range (Start(Ang^3), End(Ang^3), Step)", nargs='*')
+    parser.add_argument("-N", "--number", help="Select particle numbers (Start, End, Step)")
 
     args = parser.parse_args()._get_kwargs()
 
-    T_START = 100
-    T_END   = 400
-    T_STEP  = 4
-    V_START = 500000
-    V_END   = 500000
-    V_STEP  = 1
+    T_START, T_END, T_STEP = 100, 400, 4
+    V_START, V_END, V_STEP = 500000, 500000, 1
+    N_START, N_END, N_STEP = 100, 100, 1
 
     for name, arg in args:
         if name == "temperature":
             if arg is not None:
-                T_START = eval(arg[0])
-                T_END   = eval(arg[1])
-                T_STEP  = eval(arg[2])
+                T_START, T_END, T_STEP = eval(arg[0]), eval(arg[1]), eval(arg[2])
         if name == "volume":
-                V_START = eval(arg[0])
-                V_END   = eval(arg[1])
-                V_STEP  = eval(arg[2])
+            if arg is not None:
+                V_START, V_END, V_STEP = eval(arg[0]), eval(arg[1]), eval(arg[2])
+        if name == "number":
+            if arg is not None:
+                N_START, N_END, N_STEP = eval(arg[0]), eval(arg[1]), eval(arg[2])
 
     tmps = np.linspace(T_START, T_END, T_STEP)
     Vs = np.linspace(V_START, V_END, V_STEP)
+    Ns = np.linspace(N_START, N_END, N_STEP)
 
     run_mds(tmps, Vs)
