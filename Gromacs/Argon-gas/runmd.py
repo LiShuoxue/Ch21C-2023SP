@@ -124,4 +124,4 @@ if __name__ == "__main__":
     Vs = np.linspace(V_START, V_END, V_STEP)
     Ns = np.linspace(N_START, N_END, N_STEP)
 
-    run_mds(tmps, Vs)
+    run_mds(tmps, Vs, Ns)
