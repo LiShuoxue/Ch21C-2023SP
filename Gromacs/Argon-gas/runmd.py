@@ -76,6 +76,7 @@ echo 10 | gmx energy -o Pressure.xvg
 
                 df['Volume'][cnt] = V
                 df['Temperature'][cnt] = tmp
+                df['Number'][cnt] = N
 
                 subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "V-{:.2f}-N-{:.0f}".format(V, N)])
                 for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
