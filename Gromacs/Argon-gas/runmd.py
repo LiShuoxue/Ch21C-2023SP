@@ -36,15 +36,17 @@ def run_mds(tmps, Vs, Ns):
 filepath="https://raw.githubusercontent.com/LiShuoxue/Ch21C-2023SP/main/Gromacs/Argon-gas/"
 for filename in "argon.top" 
 do
-  curl -O ${filepath}${filename}
+  curl -O ${filepath}${filename} > argon_template.top
 done
+
+cat argon_template.top | sed "s/NUMBER/$3/g" > argon.top
 
 # change temperature to the arg $1
 curl -O ${filepath}md.mdp
 cat md.mdp | sed "s/MYTEMP/$1/g" > mdwork.mdp
 
 # Run Molecular dynamics
-gmx grompp -f mdwork.mdp -c $2.pdb -p argon.top
+gmx grompp -f mdwork.mdp -c V-$2-N-$3.pdb -p argon.top
 gmx mdrun -s topol.tpr -v -c argon_1ns.gro -nice 0
 
 # Post-processing
@@ -80,7 +82,7 @@ echo 10 | gmx energy -o Pressure.xvg
                 df['Temperature'][cnt] = tmp
                 df['Number'][cnt] = N
 
-                subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "V-{:.2f}-N-{:.0f}".format(V, N)])
+                subprocess.call(["sh", "../runmd.sh", "{:.2f}".format(tmp), "{:.2f}".format(V), "{:.0f}".format(N)])
                 for tag in ['Potential', 'Kinetic', 'Total_E', 'Pressure']:
                     step, quant = np.loadtxt("{}.xvg".format(tag), comments=['#', '@']).T
                     quant_mean = np.mean(quant[len(step)//3:])

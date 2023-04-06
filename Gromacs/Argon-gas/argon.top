@@ -20,4 +20,4 @@ Argon
 
 [ molecules ]
 ; Compound        #mols
-AR                100
+AR                NUMBER
