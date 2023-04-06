@@ -101,7 +101,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-T", "--temperature", help="Select Temperature Range (Start(K), End(K), Step)", nargs='*')
     parser.add_argument("-V", "--volume", help="Select Volume Range (Start(Ang^3), End(Ang^3), Step)", nargs='*')
-    parser.add_argument("-N", "--number", help="Select particle numbers (Start, End, Step)")
+    parser.add_argument("-N", "--number", help="Select particle numbers (Start, End, Step)",  nargs='*')
 
     args = parser.parse_args()._get_kwargs()
 
