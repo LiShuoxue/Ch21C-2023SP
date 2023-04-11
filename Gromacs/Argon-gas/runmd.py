@@ -29,7 +29,7 @@ def generate_Argon_pdbfile(V, N, filename=None):
 
         idx = 0
 
-        while idx < 600:
+        while idx < N:
             for i in range(Nsup):
                 for j in range(Nsup):
                     for k in range(Nsup):
