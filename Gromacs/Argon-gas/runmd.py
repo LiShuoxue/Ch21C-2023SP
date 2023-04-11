@@ -11,9 +11,13 @@ units = {
     "Volume": "L/mol"
 }
 
+
+
 def generate_Argon_pdbfile(V, N, filename=None):
 
     a = V**(1/3)
+
+    Nsup = int(N**(1/3)) + 1
 
     if filename is None: filename = "argon-start-N{}-V{}.pdb".format(N, V)
 
@@ -22,8 +26,21 @@ def generate_Argon_pdbfile(V, N, filename=None):
         f.write("REMARK    THIS IS A SIMULATION BOX\n")
         f.write("CRYST1 {:.6f} {:.6f} {:.6f}  90.00  90.00  90.00 P 1  1\n".format(a,a,a))
         f.write("MODEL        1\n")
+
+        idx = 0
+
+        while idx < 600:
+            for i in range(Nsup):
+                for j in range(Nsup):
+                    for k in range(Nsup):
+
+                        idx += 1
+                        f.write("ATOM{:>7}  Ar   Ar{:>6}{:>12.3f}{:>8.3f}{:>8.3f}  1.00  0.00\n".format(idx+1, idx+1, i*a/Nsup, j*a/Nsup, k*a/Nsup))
+        
+        """
         for i in range(N):
             f.write("ATOM{:>7}  Ar   Ar{:>6}{:>12.3f}{:>8.3f}{:>8.3f}  1.00  0.00\n".format(i+1, i+1, np.random.random()*a, np.random.random()*a, np.random.random()*a))
+        """
         f.write("TER\n")
         f.write("ENDMDL\n")
         f.close()
