@@ -37,7 +37,9 @@ def generate_Argon_pdbfile(V, N, filename=None):
 
                     idx += 1
                     if idx >= N: break
-        
+
+                if idx >= N: break
+            if idx >= N: break
         """
         for i in range(N):
             f.write("ATOM{:>7}  Ar   Ar{:>6}{:>12.3f}{:>8.3f}{:>8.3f}  1.00  0.00\n".format(i+1, i+1, np.random.random()*a, np.random.random()*a, np.random.random()*a))
