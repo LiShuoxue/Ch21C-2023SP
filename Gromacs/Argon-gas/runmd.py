@@ -29,13 +29,14 @@ def generate_Argon_pdbfile(V, N, filename=None):
 
         idx = 0
 
-        while idx < N:
-            for i in range(Nsup):
-                for j in range(Nsup):
-                    for k in range(Nsup):
+        for i in range(Nsup):
+            for j in range(Nsup):
+                for k in range(Nsup):
 
-                        idx += 1
-                        f.write("ATOM{:>7}  Ar   Ar{:>6}{:>12.3f}{:>8.3f}{:>8.3f}  1.00  0.00\n".format(idx+1, idx+1, i*a/Nsup, j*a/Nsup, k*a/Nsup))
+                    f.write("ATOM{:>7}  Ar   Ar{:>6}{:>12.3f}{:>8.3f}{:>8.3f}  1.00  0.00\n".format(idx+1, idx+1, i*a/Nsup, j*a/Nsup, k*a/Nsup))
+
+                    idx += 1
+                    if idx >= 600: break
         
         """
         for i in range(N):
