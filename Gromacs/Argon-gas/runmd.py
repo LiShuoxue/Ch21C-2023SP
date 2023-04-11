@@ -68,7 +68,7 @@ echo 10 | gmx energy -o Pressure.xvg
         for Vm in Vs:
             for N in Ns:
 
-                V = (Vm * 10E-3) * N / 6.022E23 * 10E30 # Vm (L/mol) -> V (Ang^3)
+                V = (Vm * 1E-3) * N / 6.02214076e+23 * 1E30 # Vm (L/mol) -> V (Ang^3)
                 N = int(N)
 
                 folder = "V-{:.2f}-T-{:.2f}K-N-{:.0f}".format(Vm, tmp, N)
